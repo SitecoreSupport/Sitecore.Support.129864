@@ -14,9 +14,9 @@ using Sitecore.Shell.Applications.ContentEditor;
 using Sitecore.Shell.Applications.Dialogs.MediaBrowser;
 using Sitecore.Exceptions;
 
-namespace Sitecore.Support.Applications.WebEdit.Commands
+namespace Sitecore.Support.Shell.Applications.WebEdit.Commands
 {
-  public class ChooseImage : Shell.Applications.WebEdit.Commands.ChooseImage
+  public class ChooseImage : Sitecore.Shell.Applications.WebEdit.Commands.ChooseImage
   {
     public override void Execute(CommandContext context)
     {
@@ -122,6 +122,5 @@ namespace Sitecore.Support.Applications.WebEdit.Commands
         args.WaitForPostBack();
       }
     }
-
   }
 }

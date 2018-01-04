@@ -56,7 +56,7 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Applications\WebEdit\Commands\ChooseImage.cs" />
+    <Compile Include="Shell\Applications\WebEdit\Commands\ChooseImage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
