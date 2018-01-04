@@ -47,6 +47,15 @@ namespace Sitecore.Support.Shell.Applications.WebEdit.Commands
             MediaItem mediaItem = Client.ContentDatabase.GetItem(args.Result);
             if (mediaItem != null)
             {
+              // Verify item's template
+              TemplateItem template = mediaItem.InnerItem.Template;
+              bool flag4 = template != null && !ChooseImage.IsImageMedia(template);
+              if (flag4)
+              {
+                SheerResponse.Alert("The selected item does not contain an image.", new string[0]);
+                return;
+              }
+
               imageField.SetAttribute("mediaid", mediaItem.ID.ToString());
               if (text.Length > 0)
               {
@@ -84,9 +93,10 @@ namespace Sitecore.Support.Shell.Applications.WebEdit.Commands
       {
         string text2 = StringUtil.GetString(new string[]
         {
-      field.Source,
-      "/sitecore/media library"
+          field.Source,
+          "/sitecore/media library"
         });
+
         if (text.Length > 0)
         {
           XmlValue xmlValue2 = new XmlValue(text, "image");
@@ -121,6 +131,34 @@ namespace Sitecore.Support.Shell.Applications.WebEdit.Commands
         SheerResponse.ShowModalDialog(mediaBrowserOptions.ToUrlString().ToString(), "1200px", "700px", string.Empty, true);
         args.WaitForPostBack();
       }
+    }
+
+    /// <summary>
+    /// Checks whether the template item is a media item template
+    /// </summary>
+    /// <param name="template">Template item</param>
+    /// <returns>true if the template is a media item template or is based on one and false otherwise</returns>
+    private static bool IsImageMedia(TemplateItem template)
+    {
+      Assert.ArgumentNotNull(template, "template");
+      if (template.ID == TemplateIDs.VersionedImage || template.ID == TemplateIDs.UnversionedImage)
+      {
+        return true;
+      }
+      else
+      {
+        TemplateItem[] baseTemplates = template.BaseTemplates;
+        for (int i = 0; i < baseTemplates.Length; i++)
+        {
+          TemplateItem template2 = baseTemplates[i];
+          if (ChooseImage.IsImageMedia(template2))
+          {
+            return true;
+          }
+        }
+      }
+
+      return false;
     }
   }
 }
